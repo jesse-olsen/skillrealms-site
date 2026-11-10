@@ -1,0 +1,916 @@
+Here is the complete, clean, single file. Use this and discard everything from the previous chunks:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillRealms: Epic adventures. Legions of learners.</title>
+  <meta name="description" content="SkillRealms is a collaborative tabletop roleplaying game designed for large groups to practise teamwork, communication, and human-centric skills. Founded by Dr Jesse Olsen, University of Melbourne." />
+
+  <!-- Authorship & ownership -->
+  <meta name="author" content="Dr Jesse Olsen" />
+  <meta name="copyright" content="Jesse E. Olsen" />
+
+  <!-- Keywords -->
+  <meta name="keywords" content="SkillRealms, tabletop roleplaying game, workplace learning, teamwork, collaboration, human-centric skills, game-based learning, Jesse Olsen, University of Melbourne, leadership development, D&D, Dungeons and Dragons, organisational behaviour" />
+
+  <!-- Open Graph — controls how the page appears when shared on LinkedIn, Facebook, etc. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.skillrealms.com/" />
+  <meta property="og:title" content="SkillRealms — Building Real Skills for Legions of Learners" />
+  <meta property="og:description" content="A collaborative tabletop roleplaying game designed for large groups and classes to practise teamwork, communication, and human-centric skills. Founded by Dr Jesse Olsen, University of Melbourne." />
+  <meta property="og:image" content="https://www.skillrealms.com/og-image.jpg" />
+  <meta property="og:site_name" content="SkillRealms" />
+  <meta property="og:locale" content="en_AU" />
+
+  <!-- Twitter/X card — controls how the page appears when shared on Twitter/X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SkillRealms — Building Real Skills for Legions of Learners" />
+  <meta name="twitter:description" content="A collaborative tabletop roleplaying game designed for large groups and classes to practise teamwork, communication, and human-centric skills." />
+  <meta name="twitter:image" content="https://www.skillrealms.com/og-image.jpg" />
+
+  <!-- Canonical URL — tells search engines this is the definitive version of the page -->
+  <link rel="canonical" href="https://www.skillrealms.com/" />
+
+  <!-- Robots -->
+  <meta name="robots" content="index, follow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ───────────────────────────────────────────────── */
+    :root {
+      --navy:        #253B59;
+      --deep-purple: #442E85;
+      --teal:        #58C9C0;
+      --deep-teal:   #0A5356;
+      --peach:       #F79A6F;
+      --orange:      #F15A22;
+      --pink:        #F2ACCD;
+      --magenta:     #EE4D9B;
+      --off-white:   #EFEEED;
+      --white:       #FFFFFF;
+      --font-heading: 'Fraunces', Georgia, serif;
+      --font-mono:    'Share Tech Mono', monospace;
+      --font-body:    'Inter', system-ui, sans-serif;
+      --max-width:    1100px;
+      --section-pad:  clamp(4rem, 8vw, 7rem);
+    }
+
+    /* ── RESET ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--navy);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--deep-purple); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover, a:focus-visible { color: var(--magenta); }
+    :focus-visible { outline: 3px solid var(--magenta); outline-offset: 3px; }
+
+    /* ── TYPE HELPERS ─────────────────────────────────────────── */
+    .heading { font-family: var(--font-heading); font-weight: 700; line-height: 1.15; }
+    .label   { font-family: var(--font-mono); font-size: 0.92rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+    /* ── LAYOUT ───────────────────────────────────────────────── */
+    .container { width: min(var(--max-width), 100% - 3rem); margin-inline: auto; }
+    .section   { padding-block: var(--section-pad); position: relative; overflow: hidden; }
+
+    /* ── SCROLL REVEAL ────────────────────────────────────────── */
+    .reveal       { opacity: 0; transform: translateY(32px);  transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible,
+    .reveal-left.visible,
+    .reveal-right.visible { opacity: 1; transform: translate(0); }
+
+    /* ── SKIP LINK ────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--deep-purple); color: var(--white);
+      padding: 0.5rem 1rem; border-radius: 2px;
+      font-family: var(--font-body); font-size: 0.9rem;
+      z-index: 9999; text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ── NAV ──────────────────────────────────────────────────── */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.93);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(37,59,89,0.1);
+      transition: box-shadow 0.3s;
+    }
+    .site-nav.scrolled { box-shadow: 0 2px 16px rgba(37,59,89,0.12); }
+    .nav-inner {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      height: 68px; gap: 1rem;
+    }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-links {
+      display: flex; list-style: none;
+      gap: clamp(1rem, 2.5vw, 2rem); align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; color: var(--navy);
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--deep-purple);
+      border-bottom-color: var(--magenta);
+    }
+    .nav-cta {
+      background: var(--deep-purple) !important;
+      color: var(--white) !important;
+      padding: 0.5rem 1.1rem !important;
+      border-radius: 2px;
+      border-bottom: none !important;
+    }
+    .nav-cta:hover,
+    .nav-cta:focus-visible {
+      background: var(--magenta) !important;
+      color: var(--white) !important;
+      border-bottom-color: transparent !important;
+    }
+    .nav-toggle {
+      display: none; background: none; border: none;
+      cursor: pointer; padding: 0.4rem;
+      flex-direction: column; gap: 5px;
+    }
+    .nav-toggle span {
+      display: block; width: 24px; height: 2px;
+      background: var(--navy); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 700px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none; position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: var(--white);
+        flex-direction: column;
+        padding: 1.5rem 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 2px solid var(--off-white);
+        box-shadow: 0 8px 24px rgba(37,59,89,0.1);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.85rem; }
+    }
+
+    /* ── BUTTONS ──────────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: 1rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 1.8rem; border-radius: 2px;
+      border: 2px solid transparent; cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn-primary { background: var(--magenta); color: var(--white); border-color: var(--magenta); }
+    .btn-primary:hover,
+    .btn-primary:focus-visible { background: var(--white); color: var(--magenta); }
+    .btn-outline { background: transparent; color: var(--white); border-color: var(--white); }
+    .btn-outline:hover,
+    .btn-outline:focus-visible { background: var(--white); color: var(--navy); }
+    .btn-outline-dark { background: transparent; color: var(--deep-purple); border-color: var(--deep-purple); }
+    .btn-outline-dark:hover,
+    .btn-outline-dark:focus-visible { background: var(--deep-purple); color: var(--white); }
+
+    /* ── DIVIDERS ─────────────────────────────────────────────── */
+    .divider-down { width: 100%; overflow: hidden; line-height: 0; }
+    .divider-down svg { display: block; width: 100%; }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      background: var(--navy);
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 68px; position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      top: 52%;
+      background-image: url('grid-pink.png');
+      background-size: cover; background-position: top center;
+      opacity: 0.35; pointer-events: none;
+    }
+
+    .hero-shape-tl {
+      position: absolute; top: -80px; left: -80px;
+      width: 340px; height: 340px; border-radius: 50%;
+      background: var(--deep-purple); opacity: 0.35; pointer-events: none;
+    }
+    .hero-shape-br {
+      position: absolute; bottom: -60px; right: -60px;
+      width: 260px; height: 260px;
+      background: var(--orange);
+      clip-path: polygon(100% 0, 0 100%, 100% 100%);
+      opacity: 0.5; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; padding-block: clamp(2rem, 8vw, 6rem); }
+    .hero-label   { color: var(--pink); margin-bottom: 3rem; font-size: clamp(1.5rem, 1.8vw, 1.2rem); }
+    .hero-title   { font-size: clamp(2.6rem, 6vw, 4rem); color: var(--white); margin-bottom: 1.5rem; max-width: 20ch; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .hero-logo { margin-bottom: 1rem; margin-top: 0rem; }
+    .hero-logo img { height: clamp(80px, 14vw, 160px); width: auto; }
+
+    /* ── WHAT ─────────────────────────────────────────────────── */
+    #what { background: var(--white); padding-block: clamp(3rem, 6vw, 5rem); }
+    .what-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 5rem); align-items: center;
+    }
+    @media (max-width: 768px) { .what-grid { grid-template-columns: 1fr; } }
+    .what-text .section-label { color: var(--deep-purple); margin-bottom: 0.8rem; }
+    .what-text h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--navy); margin-bottom: 1.2rem; }
+    .what-text p  { color: var(--navy); margin-bottom: 1rem; }
+    .what-visual  { display: flex; align-items: center; justify-content: center; }
+    .shape-cluster { position: relative; width: 320px; height: 320px; margin: auto; }
+    .shape-cluster img { position: absolute; opacity: 0.75; mix-blend-mode: multiply; }
+    .shape-cluster .sc-square   { width: 150px; top: 40px; left: 0;      animation: float 20s ease-in-out infinite -5s; }
+    .shape-cluster .sc-triangle { width: 180px; bottom: 30px; left: 0px; animation: float 24s ease-in-out infinite reverse; }
+    .shape-cluster .sc-pentagon { width: 170px; bottom: 0px; right: 40px; animation: float-sideways 28s ease-in-out infinite 1s; }
+    @keyframes float {
+      0%   { transform: translateY(0) translateX(0); }
+      25%  { transform: translateY(-40px) translateX(16px); }
+      50%  { transform: translateY(-28px) translateX(-16px); }
+      75%  { transform: translateY(-48px) translateX(8px); }
+      100% { transform: translateY(0) translateX(0); }
+    }
+    @keyframes float-sideways {
+      0%   { transform: scaleX(-1) translateX(0) translateY(0); }
+      25%  { transform: scaleX(-1) translateX(-40px) translateY(-16px); }
+      50%  { transform: scaleX(-1) translateX(-28px) translateY(16px); }
+      75%  { transform: scaleX(-1) translateX(-48px) translateY(-8px); }
+      100% { transform: scaleX(-1) translateX(0) translateY(0); }
+    }
+
+    /* ── HOW ──────────────────────────────────────────────────── */
+    #how { background: var(--navy); }
+    #how .section-label { color: var(--peach); margin-bottom: 0.8rem; }
+    #how h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--white); margin-bottom: 3rem; }
+    .how-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .how-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; padding: 2rem 1.6rem;
+      position: relative; overflow: hidden;
+    }
+    .how-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+    }
+    .how-card:nth-child(1)::before { background: var(--magenta); }
+    .how-card:nth-child(2)::before { background: var(--peach); }
+    .how-card:nth-child(3)::before { background: var(--teal); }
+    .how-card:nth-child(4)::before { background: var(--pink); }
+    .how-card-num {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--peach); margin-bottom: 0.8rem;
+    }
+    .how-card h3 { font-family: var(--font-heading); font-size: 1.25rem; color: var(--white); margin-bottom: 0.6rem; }
+    .how-card p  { font-size: 0.95rem; color: var(--pink); line-height: 1.65; }
+
+    /* ── ABOUT ────────────────────────────────────────────────── */
+    #about { background: var(--off-white); }
+    .about-grid {
+      display: grid; grid-template-columns: 340px 1fr;
+      gap: clamp(2.5rem, 5vw, 5rem); align-items: start;
+    }
+    @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-photo-wrap { position: relative; }
+    .about-photo-wrap img {
+      width: 100%; max-width: 340px;
+      border-radius: 6px; position: relative; z-index: 1;
+    }
+    .about-photo-wrap::before {
+      content: ''; position: absolute;
+      top: -20px; left: -20px;
+      width: 100%; height: 100%;
+      background: var(--deep-purple);
+      border-radius: 6px; z-index: 0;
+    }
+    .about-text .section-label { color: var(--deep-purple); margin-bottom: 0.8rem; }
+    .about-text h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--navy); margin-bottom: 0.4rem; }
+    .about-role {
+      font-family: var(--font-mono); font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--deep-purple); margin-bottom: 1.4rem;
+    }
+    .about-text p { color: var(--navy); margin-bottom: 1rem; font-size: 0.97rem; }
+    .about-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.8rem; }
+    #about .deco-half {
+      position: absolute; bottom: -120px; right: -120px;
+      width: 340px; height: 340px; border-radius: 50%;
+      background: var(--teal); opacity: 0.15; pointer-events: none;
+    }
+
+    /* ── WRITING ──────────────────────────────────────────────── */
+    #writing { background: var(--white); }
+    .writing-grid-bg {
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 55%;
+      background-image: url('grid-orange.png');
+      background-size: cover; background-position: top center;
+      opacity: 0.40; pointer-events: none;
+    }
+    #writing .section-label { color: var(--deep-purple); margin-bottom: 0.8rem; }
+    #writing h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--navy); margin-bottom: 0.6rem; }
+    .section-intro { max-width: 60ch; color: var(--navy); margin-bottom: 3rem; }
+    .writing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .writing-card {
+      border: 2px solid var(--navy); border-radius: 6px;
+      padding: 1.8rem; display: flex; flex-direction: column; gap: 0.8rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--navy);
+    }
+    .writing-card:hover { border-color: var(--magenta); box-shadow: 0 4px 20px rgba(238,77,155,0.2); }
+    .writing-card-tag {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--peach);
+    }
+    .writing-card h3 { font-family: var(--font-heading); font-size: 1.15rem; color: var(--white); line-height: 1.3; }
+    .writing-card p  { font-size: 0.92rem; color: var(--pink); flex: 1; }
+    .card-link {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--peach); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: auto;
+    }
+    .card-link::after { content: ' →'; }
+    .card-link:hover  { color: var(--magenta); }
+    .media-strip { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--off-white); }
+    .media-strip .section-label { color: var(--navy); margin-bottom: 1.2rem; }
+    .media-logos { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center; }
+    .media-logo-pill {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--off-white); color: var(--navy);
+      padding: 0.4rem 0.9rem; border-radius: 100px;
+    }
+
+    /* ── CONTACT ──────────────────────────────────────────────── */
+    #contact { background: var(--deep-purple); text-align: center; }
+    #contact .section-label { color: var(--pink); margin-bottom: 1rem; }
+    #contact h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem); color: var(--white);
+      margin-bottom: 1.2rem; max-width: 20ch; margin-inline: auto;
+    }
+    #contact p {
+      color: var(--pink); max-width: 52ch;
+      margin-inline: auto; margin-bottom: 2.5rem; font-size: 1.05rem;
+    }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .photo-placeholder {
+      margin-top: 3.5rem;
+      background: rgba(255,255,255,0.08);
+      border: 2px dashed rgba(242,172,205,0.4);
+      border-radius: 6px; padding: 3rem 2rem; text-align: center;
+      color: var(--pink); font-family: var(--font-mono);
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 0.75rem;
+      margin-top: 3.5rem;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .photo-grid-item {
+      margin: 0;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .photo-grid-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .photo-grid-item img:hover {
+      transform: scale(1.04);
+    }
+    .photo-grid-large,
+    .photo-grid-item:last-child {
+      grid-column: 1 / -1;
+    }
+    .photo-grid-large img,
+    .photo-grid-item:last-child img {
+      height: 380px;
+    }
+    @media (max-width: 600px) {
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-grid-large { grid-column: 1; }
+    }
+
+    #contact .deco-diamond {
+      position: absolute; top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      background: var(--magenta);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      opacity: 0.2; pointer-events: none;
+    }
+    #contact .deco-circle {
+      position: absolute; bottom: -80px; left: -80px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: var(--teal); opacity: 0.15; pointer-events: none;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    .site-footer { background: var(--navy); padding-block: 3rem; }
+    .footer-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2.5rem; align-items: start;
+    }
+    @media (max-width: 600px) { .footer-inner { grid-template-columns: 1fr; } }
+    .footer-aoc h3 { font-family: var(--font-heading); font-size: 1rem; color: var(--white); margin-bottom: 0.6rem; }
+    .footer-aoc p  { font-size: 0.88rem; line-height: 1.65; color: var(--pink); }
+    .footer-flags  { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+    .footer-links h3 { font-family: var(--font-heading); font-size: 1rem; color: var(--white); margin-bottom: 0.8rem; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .footer-links a  { font-size: 0.88rem; color: var(--pink); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      margin-top: 2.5rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(242,172,205,0.2);
+      display: flex; flex-wrap: wrap; gap: 0.8rem;
+      justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { flex: 1; }
+    .footer-bottom p { font-size: 0.78rem; color: var(--pink); }
+    .footer-logo img { height: 48px; }
+
+    /* ── UTILITY ──────────────────────────────────────────────── */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions, .about-links, .contact-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="SkillRealms — return to top">
+        <img src="logo-light.png" alt="SkillRealms" />
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-menu" role="list">
+        <li><a href="#what">The Game</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#about">About Jesse</a></li>
+        <li><a href="#writing">Research</a></li>
+        <li><a href="#contact" class="nav-cta">Get Involved</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section id="hero" aria-labelledby="hero-title">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-shape-tl" aria-hidden="true"></div>
+      <div class="hero-shape-br" aria-hidden="true"></div>
+      <div class="container hero-content">
+        <div class="hero-logo reveal">
+          <img src="logo-dark.png" alt="SkillRealms" />
+        </div>
+        <p class="label hero-label reveal" style="transition-delay:0.05s">A Roleplaying Game for Leadership and Team Development</p>
+        <h1 id="hero-title" class="heading hero-title reveal" style="transition-delay:0.1s">
+          Epic adventures.<br />Legions of learners.
+        </h1>
+        <div class="hero-actions reveal" style="transition-delay:0.2s">
+          <a href="#contact" class="btn btn-primary">Run a Session</a>
+          <a href="#what"    class="btn btn-outline">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- divider navy → white -->
+    <div class="divider-down" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60">
+        <polygon points="0,0 1440,0 1440,60" fill="#253B59"/>
+        <polygon points="0,0 1440,60 0,60"   fill="#FFFFFF"/>
+      </svg>
+    </div>
+
+    <!-- ── WHAT IS SKILLREALMS ──────────────────────────────── -->
+    <section id="what" class="section" aria-labelledby="what-title">
+      <div class="container">
+        <div class="what-grid">
+          <div class="what-text">
+            <p class="label section-label reveal">What Is SkillRealms?</p>
+            <h2 id="what-title" class="heading reveal" style="transition-delay:0.1s">
+              Imaginary Worlds Built for Real Learning
+            </h2>
+            <p class="reveal" style="transition-delay:0.15s">
+              SkillRealms is a roleplaying game (like Dungeons &amp; Dragons) designed for large groups or classes to practise and develop human-centric skills, like teamwork, collaboration, and communication.
+            </p>
+            <p class="reveal" style="transition-delay:0.2s">
+              The game deliberately takes place in an imaginary fantasy world, creating a <em>liminal learning space</em> that strips away real-world corporate contexts to foster psychological safety. Unlike traditional business simulations that rely on competitive mechanics or direct workplace scenarios, SkillRealms sets itself apart through a purely collaborative, non-competitive framework grounded in theory and evidence from organisational behaviour.
+            </p>
+            <p class="reveal" style="transition-delay:0.25s">
+              The game explicitly highlights the importance of connection both within and across teams. In the future, SkillRealms will be facilitated by a web-based app that empowers instructors to easily run sessions for 20 to 100 (or even more) learners.
+            </p>
+            <p class="reveal" style="transition-delay:0.3s">
+              SkillRealms is developed by
+              <a href="https://findanexpert.unimelb.edu.au/profile/656729-jesse-olsen" target="_blank" rel="noopener">Associate Professor Jesse Olsen</a>,
+              with support from the
+              <a href="https://www.unimelb.edu.au/mec/melbourne-innovated" target="_blank" rel="noopener">InnovatEd Incubator Program</a>
+              (via the <a href="https://www.unimelb.edu.au/mec" target="_blank" rel="noopener">Melbourne Entrepreneurial Centre</a>),
+              the <a href="https://fbe.unimelb.edu.au/managementmarketing" target="_blank" rel="noopener">Department of Management and Marketing</a>,
+              and the <a href="https://fbe.unimelb.edu.au/" target="_blank" rel="noopener">Faculty of Business and Economics</a>
+              at the <a href="https://www.unimelb.edu.au/" target="_blank" rel="noopener">University of Melbourne</a>.
+            </p>
+          </div>
+
+          <div class="what-visual reveal-right">
+            <div class="shape-cluster" aria-hidden="true">
+              <img class="sc-square"   src="shape-square-orange.png"  alt="" />
+              <img class="sc-triangle" src="shape-triangle-pink.png"  alt="" />
+              <img class="sc-pentagon" src="shape-pentagon-teal.png"  alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- divider white → navy -->
+    <div class="divider-down" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60">
+        <polygon points="0,0 1440,0 0,60"   fill="#FFFFFF"/>
+        <polygon points="1440,0 1440,60 0,60" fill="#253B59"/>
+      </svg>
+    </div>
+
+    <!-- ── HOW IT WORKS ─────────────────────────────────────── -->
+    <section id="how" class="section" aria-labelledby="how-title">
+      <div class="container">
+        <p class="label section-label reveal">How It Works</p>
+        <h2 id="how-title" class="heading reveal" style="transition-delay:0.1s">
+          Play Together. Learn Together.
+        </h2>
+        <div class="how-cards">
+          <article class="how-card reveal" style="transition-delay:0s">
+            <p class="how-card-num">Step 01</p>
+            <h3>Enter the Fantasy World</h3>
+            <p>Players step into an imaginary realm, leaving behind real-world hierarchies and pressures. The fantasy setting creates psychological safety — a space where it is safe to experiment with new behaviours.</p>
+          </article>
+          <article class="how-card reveal" style="transition-delay:0.12s">
+            <p class="how-card-num">Step 02</p>
+            <h3>Collaborate, Not Compete</h3>
+            <p>Unlike traditional business simulations, SkillRealms is purely collaborative. Teams work together toward shared goals with no competitive pressure — mirroring the kind of teamwork that actually matters at work.</p>
+          </article>
+          <article class="how-card reveal" style="transition-delay:0.24s">
+            <p class="how-card-num">Step 03</p>
+            <h3>Experiment &amp; Connect</h3>
+            <p>Players experiment with new behaviours and build connections both within and across teams. The game is designed to scale from 20 to 100 or more learners in a single session.</p>
+          </article>
+          <article class="how-card reveal" style="transition-delay:0.36s">
+            <p class="how-card-num">Step 04</p>
+            <h3>Debrief &amp; Transfer</h3>
+            <p>Structured debriefing sessions translate in-game actions into real-world professional capabilities — turning play into lasting, evidence-based learning outcomes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- divider navy → off-white -->
+    <div class="divider-down" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60">
+        <polygon points="0,0 1440,0 0,60"   fill="#253B59"/>
+        <polygon points="1440,0 1440,60 0,60" fill="#EFEEED"/>
+      </svg>
+    </div>
+
+    <!-- ── ABOUT JESSE ──────────────────────────────────────── -->
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="deco-half" aria-hidden="true"></div>
+      <div class="container">
+        <div class="about-grid">
+
+          <div class="about-photo-wrap reveal-left">
+            <img
+              src="photo-jesse.jpg"
+              alt="Dr Jesse Olsen, Associate Professor of Management at the University of Melbourne and Founder of SkillRealms"
+              width="340"
+            />
+          </div>
+
+          <div class="about-text">
+            <p class="label section-label reveal">About the Creator</p>
+            <h2 id="about-title" class="heading reveal" style="transition-delay:0.1s">Dr Jesse Olsen</h2>
+            <p class="about-role reveal" style="transition-delay:0.15s">
+              Associate Professor of Management · Founder &amp; Chief Game Master
+            </p>
+            <p class="reveal" style="transition-delay:0.2s">
+              Jesse Olsen is an Associate Professor of Management in the
+              <a href="https://fbe.unimelb.edu.au/managementmarketing" target="_blank" rel="noopener">Department of Management and Marketing</a>
+              at the <a href="https://www.unimelb.edu.au/" target="_blank" rel="noopener">University of Melbourne</a>.
+              He earned his PhD in Organisational Behavior from the Scheller College of Business at the Georgia Institute of Technology (Atlanta, USA).
+            </p>
+            <p class="reveal" style="transition-delay:0.25s">
+              His research focuses on hobbies and leisure at work, improvisation in organisations, diversity and inclusion, international and cross-cultural management, and leadership. For both his teaching and research, Jesse has been exploring the applicability of hobbies and personal activities to work and the workplace, with particular interest in Dungeons &amp; Dragons and other tabletop roleplaying games.
+            </p>
+            <p class="reveal" style="transition-delay:0.3s">
+              Jesse's work has been presented in such top-tier management publications as the <em>Journal of Applied Psychology</em>, <em>Harvard Business Review</em>, and <em>Organizational Behavior and Human Decision Processes</em>, and has been featured in media outlets including the BBC, SBS World News, The Guardian, Forbes, and The Conversation.
+            </p>
+            <p class="reveal" style="transition-delay:0.35s">
+              He has worked with organisations such as Perpetual, the Australian Workplace Gender Equality Agency, McDonald's, the Queensland Government, the Asian Development Bank, and HDFC Insurance. Jesse has also received improvisation and comedy writing training from the Laugh Masters Academy (Melbourne) and Second City (Chicago).
+            </p>
+            <div class="about-links reveal" style="transition-delay:0.4s">
+              <a href="https://findanexpert.unimelb.edu.au/profile/656729-jesse-olsen"
+                 target="_blank" rel="noopener"
+                 class="btn btn-outline-dark">University Profile</a>
+              <a href="https://www.linkedin.com/in/jeolsen/"
+                 target="_blank" rel="noopener"
+                 class="btn btn-outline-dark">LinkedIn</a>
+              <a href="https://blogs.unimelb.edu.au/games/"
+                 target="_blank" rel="noopener"
+                 class="btn btn-outline-dark">Game-Based Learning Nerds</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- divider off-white → white -->
+    <div class="divider-down" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60">
+        <polygon points="0,0 1440,0 0,60"    fill="#EFEEED"/>
+        <polygon points="1440,0 1440,60 0,60" fill="#FFFFFF"/>
+      </svg>
+    </div>
+
+    <!-- ── RESEARCH & WRITING ───────────────────────────────── -->
+    <section id="writing" class="section" aria-labelledby="writing-title">
+      <div class="writing-grid-bg" aria-hidden="true"></div>
+      <div class="container">
+        <p class="label section-label reveal">Research &amp; Writing</p>
+        <h2 id="writing-title" class="heading reveal" style="transition-delay:0.1s">
+          Where Play Meets Scholarship
+        </h2>
+        <p class="section-intro reveal" style="transition-delay:0.15s">
+          Jesse's work sits at the intersection of games, learning, and organisational behaviour. Here are some highlights.
+        </p>
+
+        <div class="writing-cards">
+          <article class="writing-card reveal" style="transition-delay:0s">
+            <p class="writing-card-tag">Harvard Business Review · 2024</p>
+            <h3>Why Gaming Is Good for the Workplace</h3>
+            <p>Jesse's research on how games — including tabletop roleplaying games — build real professional skills, published in one of the world's leading management journals.</p>
+            <a class="card-link"
+               href="https://hbr.org/2024/10/why-gaming-is-good-for-the-workplace"
+               target="_blank" rel="noopener"
+               aria-label="Read Why Gaming Is Good for the Workplace on Harvard Business Review (opens in new tab)">
+              Read on HBR
+            </a>
+          </article>
+
+          <article class="writing-card reveal" style="transition-delay:0.12s">
+            <p class="writing-card-tag">Pursuit · University of Melbourne</p>
+            <h3>Why Dungeons &amp; Dragons Is Good for the Workplace</h3>
+            <p>An accessible deep-dive into the research behind using D&amp;D and tabletop roleplaying as a vehicle for developing teamwork, empathy, and collaboration skills.</p>
+            <a class="card-link"
+               href="https://pursuit.unimelb.edu.au/articles/why-dungeons-and-dragons-is-good-for-the-workplace"
+               target="_blank" rel="noopener"
+               aria-label="Read Why Dungeons and Dragons Is Good for the Workplace on Pursuit (opens in new tab)">
+              Read on Pursuit
+            </a>
+          </article>
+
+          <article class="writing-card reveal" style="transition-delay:0.24s">
+            <p class="writing-card-tag">Game-Based Learning Nerds</p>
+            <h3>The GBLN Research &amp; Teaching Blog</h3>
+            <p>Jesse co-runs the Game-Based Learning Nerds site at the University of Melbourne — a hub for research, resources, and ideas at the intersection of games and education.</p>
+            <a class="card-link"
+               href="https://blogs.unimelb.edu.au/games/"
+               target="_blank" rel="noopener"
+               aria-label="Visit the Game-Based Learning Nerds blog (opens in new tab)">
+              Visit GBLN
+            </a>
+          </article>
+        </div>
+
+        <div class="media-strip reveal">
+          <p class="label section-label">As featured in</p>
+          <div class="media-logos" aria-label="Media outlets that have featured Jesse's work">
+            <span class="media-logo-pill">BBC</span>
+            <span class="media-logo-pill">The Guardian</span>
+            <span class="media-logo-pill">Forbes</span>
+            <span class="media-logo-pill">SBS World News</span>
+            <span class="media-logo-pill">The Conversation</span>
+            <span class="media-logo-pill">Harvard Business Review</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- divider white → deep-purple -->
+    <div class="divider-down" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60">
+        <polygon points="0,0 1440,0 0,60"    fill="#FFFFFF"/>
+        <polygon points="1440,0 1440,60 0,60" fill="#442E85"/>
+      </svg>
+    </div>
+
+    <!-- ── CONTACT ──────────────────────────────────────────── -->
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="deco-diamond" aria-hidden="true"></div>
+      <div class="deco-circle"  aria-hidden="true"></div>
+      <div class="container">
+        <p class="label section-label reveal">Get Involved</p>
+        <h2 id="contact-title" class="heading reveal" style="transition-delay:0.1s">
+          Ready to Run a SkillRealms Session?
+        </h2>
+        <p class="reveal" style="transition-delay:0.2s">
+          If you are keen to teach or train human-centric skills (like teamwork, collaboration, decision-making, or empathy) in your classroom, workshop, or training session, get in touch. The current version of SkillRealms is ready to play, and we are keen to lead a game and debrief session for your students, trainees, or staff.
+        </p>
+        <div class="contact-actions reveal" style="transition-delay:0.3s">
+          <a href="mailto:jesse.olsen@unimelb.edu.au" class="btn btn-primary">
+            Email the Chief Game Master
+          </a>
+          <a href="https://findanexpert.unimelb.edu.au/profile/656729-jesse-olsen"
+             target="_blank" rel="noopener"
+             class="btn btn-outline">
+            University Profile
+          </a>
+        </div>
+
+        <div class="photo-grid reveal" style="transition-delay:0.4s">
+          <figure class="photo-grid-item photo-grid-large">
+            <img src="photo-dice.jpg" alt="A close-up of a weathered metal twenty-sided die, showing the number 20" />
+          </figure>
+          <figure class="photo-grid-item">
+            <img src="photo-students.jpg" alt="SkillRealms character sheets laid out on a table with colourful dice and heart-shaped tokens" />
+          </figure>
+          <figure class="photo-grid-item">
+            <img src="photo-team.jpg" alt="A diverse group of colleagues celebrating together in a modern office" />
+          </figure>
+          <figure class="photo-grid-item">
+            <img src="photo-sheets.png" alt="Students laughing and collaborating together in a university lecture hall" />
+          </figure>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ───────────────────────────────────────────────── -->
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-inner">
+
+        <div class="footer-aoc">
+          <h3>Acknowledgement of Country</h3>
+          <p>We acknowledge Aboriginal and Torres Strait Islander people as the Traditional Owners of the unceded lands on which we work, learn, play, and live. We pay respect to Elders past and present, and we acknowledge the importance of Indigenous knowledge in the Academy.</p>
+          <div class="footer-flags">
+            <!-- Aboriginal flag (CSS approximation) -->
+            <span style="
+              display:inline-block; width:40px; height:24px;
+              background:linear-gradient(to bottom,#000 50%,#CC0000 50%);
+              border-radius:2px; position:relative; overflow:hidden;"
+              role="img" aria-label="Aboriginal flag">
+              <span style="
+                position:absolute; top:50%; left:50%;
+                transform:translate(-50%,-50%);
+                width:10px; height:10px;
+                background:#FFD700; border-radius:50%;"></span>
+            </span>
+            <!-- Torres Strait Islander flag (CSS approximation) -->
+            <span style="
+              display:inline-block; width:40px; height:24px;
+              background:linear-gradient(to bottom,
+                #009F6B 33.3%,#000 33.3%,#000 66.6%,#009F6B 66.6%);
+              border-radius:2px; position:relative; overflow:hidden;"
+              role="img" aria-label="Torres Strait Islander flag">
+              <span style="
+                position:absolute; top:50%; left:50%;
+                transform:translate(-50%,-50%);
+                width:12px; height:12px; background:#0032A0;
+                clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,
+                  79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);"></span>
+            </span>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h3>Links</h3>
+          <ul role="list">
+            <li><a href="#what">The Game</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#about">About Jesse</a></li>
+            <li><a href="#writing">Research &amp; Writing</a></li>
+            <li><a href="mailto:jesse.olsen@unimelb.edu.au">Contact Jesse</a></li>
+            <li><a href="https://findanexpert.unimelb.edu.au/profile/656729-jesse-olsen" target="_blank" rel="noopener">University of Melbourne Profile</a></li>
+            <li><a href="https://www.linkedin.com/in/jeolsen/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://blogs.unimelb.edu.au/games/" target="_blank" rel="noopener">Game-Based Learning Nerds</a></li>
+            <li><a href="https://hbr.org/2024/10/why-gaming-is-good-for-the-workplace" target="_blank" rel="noopener">HBR Article</a></li>
+            <li><a href="https://pursuit.unimelb.edu.au/articles/why-dungeons-and-dragons-is-good-for-the-workplace" target="_blank" rel="noopener">Pursuit Article</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>SkillRealms is built on the BigRPG game engine, which is intellectual property (IP) owned by the University of Melbourne. SkillRealms™ is a trademark of Jesse E. Olsen, application pending in Australia.</p>
+        <div class="footer-logo">
+          <img src="logo-dark.png" alt="SkillRealms" />
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ── JAVASCRIPT ────────────────────────────────────────────── -->
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach((el) => observer.observe(el));
+
+    // Hero elements visible immediately
+    document.querySelectorAll('#hero .reveal').forEach((el) => {
+      el.classList.add('visible');
+    });
+
+    // Nav shadow on scroll
+    const nav = document.querySelector('.site-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const menu   = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Respect prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
+        el.classList.add('visible');
+      });
+      document.querySelectorAll('.sc-square, .sc-triangle, .sc-pentagon').forEach((el) => {
+        el.style.animation = 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
