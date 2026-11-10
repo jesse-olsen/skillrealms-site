@@ -34,6 +34,13 @@
   <!-- Robots -->
   <meta name="robots" content="index, follow" />
 
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="SkillRealms" />
+  <link rel="manifest" href="site.webmanifest" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -245,23 +252,25 @@
     .what-text p  { color: var(--navy); margin-bottom: 1rem; }
     .what-visual  { display: flex; align-items: center; justify-content: center; }
     .shape-cluster { position: relative; width: 320px; height: 320px; margin: auto; }
-    .shape-cluster img { position: absolute; opacity: 0.75; mix-blend-mode: multiply; }
+    .shape-cluster img { position: absolute; opacity: 0.75; mix-blend-mode: multiply; will-change: transform; transform: translateZ(0); }
     .shape-cluster .sc-square   { width: 150px; top: 40px; left: 0;      animation: float 20s ease-in-out infinite -5s; }
     .shape-cluster .sc-triangle { width: 180px; bottom: 30px; left: 0px; animation: float 24s ease-in-out infinite reverse; }
     .shape-cluster .sc-pentagon { width: 170px; bottom: 0px; right: 40px; animation: float-sideways 28s ease-in-out infinite 1s; }
     @keyframes float {
-      0%   { transform: translateY(0) translateX(0); }
-      25%  { transform: translateY(-40px) translateX(16px); }
-      50%  { transform: translateY(-28px) translateX(-16px); }
-      75%  { transform: translateY(-48px) translateX(8px); }
-      100% { transform: translateY(0) translateX(0); }
+      0%   { transform: translateY(0px)   translateX(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      20%  { transform: translateY(-30px) translateX(12px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      40%  { transform: translateY(-44px) translateX(-10px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      60%  { transform: translateY(-20px) translateX(-18px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      80%  { transform: translateY(-38px) translateX(8px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      100% { transform: translateY(0px)   translateX(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
     }
     @keyframes float-sideways {
-      0%   { transform: scaleX(-1) translateX(0) translateY(0); }
-      25%  { transform: scaleX(-1) translateX(-40px) translateY(-16px); }
-      50%  { transform: scaleX(-1) translateX(-28px) translateY(16px); }
-      75%  { transform: scaleX(-1) translateX(-48px) translateY(-8px); }
-      100% { transform: scaleX(-1) translateX(0) translateY(0); }
+      0%   { transform: scaleX(-1) translateX(0px)   translateY(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      20%  { transform: scaleX(-1) translateX(-30px) translateY(-12px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      40%  { transform: scaleX(-1) translateX(-44px) translateY(10px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      60%  { transform: scaleX(-1) translateX(-20px) translateY(18px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      80%  { transform: scaleX(-1) translateX(-38px) translateY(-8px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      100% { transform: scaleX(-1) translateX(0px)   translateY(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
     }
 
     /* ── HOW ──────────────────────────────────────────────────── */
