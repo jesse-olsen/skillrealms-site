@@ -264,38 +264,6 @@
       position: relative;
       min-height: 500px;
       align-self: center;
-      background: var(--off-white);
-      border-radius: 8px;
-    }
-    .what-visual::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url('grid-purple.png');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      animation: grid-zoom 30s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-      transform-origin: center center;
-      will-change: transform;
-    }
-    @keyframes grid-zoom {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(2.5);
-      }
-    }
-    @keyframes shapes-breathe {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(0.75);
-      }
     }
     .shape-cluster {
       position: relative;
@@ -304,29 +272,70 @@
       margin: auto;
       overflow: visible;
       z-index: 1;
-      animation: shapes-breathe 30s ease-in-out infinite;
-      transform-origin: center center;
+    }
+    .shape-cluster img {
+      position: absolute;
+      opacity: 0.75;
+      mix-blend-mode: multiply;
       will-change: transform;
+      transform: translateZ(0);
+      z-index: 1;
     }
-    .shape-cluster img { position: absolute; opacity: 0.75; mix-blend-mode: multiply; will-change: transform; transform: translateZ(0); z-index: 1; }
-    .shape-cluster .sc-square   { width: 120px; top: 50px; left: 30px;      animation: float 20s ease-in-out infinite -5s; }
-    .shape-cluster .sc-triangle { width: 140px; bottom: 90px; left: 70px; animation: float 24s ease-in-out infinite reverse; }
-    .shape-cluster .sc-pentagon { width: 140px; bottom: 50px; right: 30px; animation: float-sideways 28s ease-in-out infinite 1s; }
+
+    .shape-cluster .sc-circle {
+      width: 160px;
+      top: 10px;
+      left: 0;
+      animation: float 20s ease-in-out infinite -10s;
+    }
+
+    .shape-cluster .sc-triangle {
+      width: 175px;
+      top: 100px;
+      left: 10px;
+      animation: float 24s ease-in-out infinite reverse;
+    }
+
+    .shape-cluster .sc-pentagon {
+      width: 170px;
+      bottom: 0px;
+      left: 70px;
+      animation: float-sideways 28s ease-in-out infinite 1s;
+    }
     @keyframes float {
-      0%   { transform: translateY(0px)   translateX(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      20%  { transform: translateY(-12px) translateX(6px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      40%  { transform: translateY(-18px) translateX(-5px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      60%  { transform: translateY(-8px)  translateX(-8px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      80%  { transform: translateY(-15px) translateX(4px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      100% { transform: translateY(0px)   translateX(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(5px, -10px);
+      }
+      50% {
+        transform: translate(-4px, -14px);
+      }
+      75% {
+        transform: translate(-6px, -7px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
     }
+
     @keyframes float-sideways {
-      0%   { transform: scaleX(-1) translateX(0px)   translateY(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      20%  { transform: scaleX(-1) translateX(-12px) translateY(-6px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      40%  { transform: scaleX(-1) translateX(-18px) translateY(5px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      60%  { transform: scaleX(-1) translateX(-8px)  translateY(8px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      80%  { transform: scaleX(-1) translateX(-15px) translateY(-4px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      100% { transform: scaleX(-1) translateX(0px)   translateY(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      0% {
+        transform: scaleX(-1) translate(0, 0);
+      }
+      25% {
+        transform: scaleX(-1) translate(-10px, -4px);
+      }
+      50% {
+        transform: scaleX(-1) translate(-14px, 4px);
+      }
+      75% {
+        transform: scaleX(-1) translate(-7px, 6px);
+      }
+      100% {
+        transform: scaleX(-1) translate(0, 0);
+      }
     }
 
     /* ── HOW ──────────────────────────────────────────────────── */
@@ -615,7 +624,7 @@
 
           <div class="what-visual reveal-right">
             <div class="shape-cluster" aria-hidden="true">
-              <img class="sc-square"   src="shape-square-orange.png"  alt="" />
+              <img class="sc-circle"   src="shape-circle-purple.png"  alt="" />
               <img class="sc-triangle" src="shape-triangle-pink.png"  alt="" />
               <img class="sc-pentagon" src="shape-pentagon-teal.png"  alt="" />
             </div>
@@ -970,7 +979,7 @@
       document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
         el.classList.add('visible');
       });
-      document.querySelectorAll('.sc-square, .sc-triangle, .sc-pentagon').forEach((el) => {
+      document.querySelectorAll('.sc-circle, .sc-triangle, .sc-pentagon').forEach((el) => {
         el.style.animation = 'none';
       });
     }
