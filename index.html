@@ -256,19 +256,23 @@
     .what-text .section-label { color: var(--deep-purple); margin-bottom: 0.8rem; }
     .what-text h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--navy); margin-bottom: 1.2rem; }
     .what-text p  { color: var(--navy); margin-bottom: 1rem; }
-    .what-visual  {
-      display: flex; align-items: center; justify-content: center;
+    .what-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
       position: relative;
       min-height: 500px;
       align-self: center;
+      background: var(--off-white);
+      border-radius: 8px;
     }
     .what-visual::before {
       content: '';
       position: absolute;
       inset: 0;
       background-image: url('grid-purple.png');
-      background-size: contain;
+      background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
       animation: grid-zoom 30s ease-in-out infinite;
@@ -282,7 +286,7 @@
         transform: scale(1);
       }
       50% {
-        transform: scale(2);
+        transform: scale(2.5);
       }
     }
     @keyframes shapes-breathe {
