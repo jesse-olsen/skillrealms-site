@@ -242,6 +242,12 @@
 
     /* ── WHAT ─────────────────────────────────────────────────── */
     #what { background: var(--white); padding-block: clamp(3rem, 6vw, 5rem); }
+    .what-footnote {
+      font-size: 0.88rem;
+      color: var(--navy);
+      margin-top: 2rem;
+      max-width: 70ch;
+    }
     .what-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: clamp(2rem, 5vw, 5rem); align-items: center;
@@ -250,26 +256,72 @@
     .what-text .section-label { color: var(--deep-purple); margin-bottom: 0.8rem; }
     .what-text h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--navy); margin-bottom: 1.2rem; }
     .what-text p  { color: var(--navy); margin-bottom: 1rem; }
-    .what-visual  { display: flex; align-items: center; justify-content: center; }
-    .shape-cluster { position: relative; width: 320px; height: 320px; margin: auto; }
-    .shape-cluster img { position: absolute; opacity: 0.75; mix-blend-mode: multiply; will-change: transform; transform: translateZ(0); }
-    .shape-cluster .sc-square   { width: 150px; top: 40px; left: 0;      animation: float 20s ease-in-out infinite -5s; }
-    .shape-cluster .sc-triangle { width: 180px; bottom: 30px; left: 0px; animation: float 24s ease-in-out infinite reverse; }
-    .shape-cluster .sc-pentagon { width: 170px; bottom: 0px; right: 40px; animation: float-sideways 28s ease-in-out infinite 1s; }
+    .what-visual  {
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+      min-height: 500px;
+      align-self: center;
+    }
+    .what-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('grid-purple.png');
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      animation: grid-zoom 30s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+      transform-origin: center center;
+      will-change: transform;
+    }
+    @keyframes grid-zoom {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(3);
+      }
+    }
+    @keyframes shapes-breathe {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(0.5);
+      }
+    }
+    .shape-cluster {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: auto;
+      overflow: visible;
+      z-index: 1;
+      animation: shapes-breathe 30s ease-in-out infinite;
+      transform-origin: center center;
+      will-change: transform;
+    }
+    .shape-cluster img { position: absolute; opacity: 0.75; mix-blend-mode: multiply; will-change: transform; transform: translateZ(0); z-index: 1; }
+    .shape-cluster .sc-square   { width: 120px; top: 50px; left: 30px;      animation: float 20s ease-in-out infinite -5s; }
+    .shape-cluster .sc-triangle { width: 140px; bottom: 90px; left: 70px; animation: float 24s ease-in-out infinite reverse; }
+    .shape-cluster .sc-pentagon { width: 140px; bottom: 50px; right: 30px; animation: float-sideways 28s ease-in-out infinite 1s; }
     @keyframes float {
       0%   { transform: translateY(0px)   translateX(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      20%  { transform: translateY(-30px) translateX(12px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      40%  { transform: translateY(-44px) translateX(-10px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      60%  { transform: translateY(-20px) translateX(-18px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      80%  { transform: translateY(-38px) translateX(8px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      20%  { transform: translateY(-12px) translateX(6px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      40%  { transform: translateY(-18px) translateX(-5px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      60%  { transform: translateY(-8px)  translateX(-8px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      80%  { transform: translateY(-15px) translateX(4px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
       100% { transform: translateY(0px)   translateX(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
     }
     @keyframes float-sideways {
       0%   { transform: scaleX(-1) translateX(0px)   translateY(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      20%  { transform: scaleX(-1) translateX(-30px) translateY(-12px); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      40%  { transform: scaleX(-1) translateX(-44px) translateY(10px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      60%  { transform: scaleX(-1) translateX(-20px) translateY(18px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-      80%  { transform: scaleX(-1) translateX(-38px) translateY(-8px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      20%  { transform: scaleX(-1) translateX(-12px) translateY(-6px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      40%  { transform: scaleX(-1) translateX(-18px) translateY(5px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      60%  { transform: scaleX(-1) translateX(-8px)  translateY(8px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+      80%  { transform: scaleX(-1) translateX(-15px) translateY(-4px);  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
       100% { transform: scaleX(-1) translateX(0px)   translateY(0px);   animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
     }
 
@@ -555,16 +607,6 @@
             <p class="reveal" style="transition-delay:0.25s">
               The game explicitly highlights the importance of connection both within and across teams. In the future, SkillRealms will be facilitated by a web-based app that empowers instructors to easily run sessions for 20 to 100 (or even more) learners.
             </p>
-            <p class="reveal" style="transition-delay:0.3s">
-              SkillRealms is developed by
-              <a href="https://findanexpert.unimelb.edu.au/profile/656729-jesse-olsen" target="_blank" rel="noopener">Associate Professor Jesse Olsen</a>,
-              with support from the
-              <a href="https://www.unimelb.edu.au/mec/melbourne-innovated" target="_blank" rel="noopener">InnovatEd Incubator Program</a>
-              (via the <a href="https://www.unimelb.edu.au/mec" target="_blank" rel="noopener">Melbourne Entrepreneurial Centre</a>),
-              the <a href="https://fbe.unimelb.edu.au/managementmarketing" target="_blank" rel="noopener">Department of Management and Marketing</a>,
-              and the <a href="https://fbe.unimelb.edu.au/" target="_blank" rel="noopener">Faculty of Business and Economics</a>
-              at the <a href="https://www.unimelb.edu.au/" target="_blank" rel="noopener">University of Melbourne</a>.
-            </p>
           </div>
 
           <div class="what-visual reveal-right">
@@ -575,6 +617,16 @@
             </div>
           </div>
         </div>
+        <p class="what-footnote reveal" style="transition-delay:0.3s">
+          SkillRealms is developed by
+          <a href="https://findanexpert.unimelb.edu.au/profile/656729-jesse-olsen" target="_blank" rel="noopener">Associate Professor Jesse Olsen</a>,
+          with support from the
+          <a href="https://www.unimelb.edu.au/mec/melbourne-innovated" target="_blank" rel="noopener">InnovatEd Incubator Program</a>
+          (via the <a href="https://www.unimelb.edu.au/mec" target="_blank" rel="noopener">Melbourne Entrepreneurial Centre</a>),
+          the <a href="https://fbe.unimelb.edu.au/managementmarketing" target="_blank" rel="noopener">Department of Management and Marketing</a>,
+          and the <a href="https://fbe.unimelb.edu.au/" target="_blank" rel="noopener">Faculty of Business and Economics</a>
+          at the <a href="https://www.unimelb.edu.au/" target="_blank" rel="noopener">University of Melbourne</a>.
+        </p>
       </div>
     </section>
 
