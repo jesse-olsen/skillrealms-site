@@ -214,11 +214,17 @@
       padding-top: 68px; position: relative; overflow: hidden;
     }
     .hero-grid {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      top: 52%;
+      position: absolute;
+      bottom: -60px;
+      left: 0;
+      right: 0;
+      height: 60%;
       background-image: url('grid-pink.png');
-      background-size: cover; background-position: top center;
-      opacity: 0.35; pointer-events: none;
+      background-size: cover;
+      background-position: top center;
+      opacity: 0.35;
+      pointer-events: none;
+      will-change: transform;
     }
 
     .hero-shape-tl {
@@ -241,7 +247,7 @@
     .hero-logo img { height: clamp(80px, 14vw, 160px); width: auto; }
 
     /* ── WHAT ─────────────────────────────────────────────────── */
-    #what { background: var(--white); padding-block: clamp(3rem, 6vw, 5rem); }
+    #what { background: var(--white); padding-block: clamp(3rem, 6vw, 5rem); overflow: visible; }
     .what-footnote {
       font-size: 0.88rem;
       color: var(--navy);
@@ -258,20 +264,29 @@
     .what-text p  { color: var(--navy); margin-bottom: 1rem; }
     .what-visual {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
       min-height: 500px;
       align-self: center;
     }
+
+    .what-visual .shape-cluster {
+      margin-top: 0;
+      transform: translate3d(0, var(--parallax-y, 0px), 0);
+      transition: transform 0.08s linear;
+    }
+
     .shape-cluster {
       position: relative;
       width: 320px;
       height: 320px;
       margin: auto;
+      margin-top: 1000px;
       overflow: visible;
       z-index: 1;
+      will-change: transform;
     }
     .shape-cluster img {
       position: absolute;
@@ -284,22 +299,22 @@
 
     .shape-cluster .sc-circle {
       width: 160px;
-      top: 10px;
+      top: 110px;
       left: 0;
       animation: float 20s ease-in-out infinite -10s;
     }
 
     .shape-cluster .sc-triangle {
       width: 175px;
-      top: 100px;
+      top: 200px;
       left: 10px;
       animation: float 24s ease-in-out infinite reverse;
     }
 
     .shape-cluster .sc-pentagon {
       width: 170px;
-      bottom: 0px;
-      left: 70px;
+      top: 250px;
+      left: 90px;
       animation: float-sideways 28s ease-in-out infinite 1s;
     }
     @keyframes float {
@@ -401,10 +416,17 @@
     /* ── WRITING ──────────────────────────────────────────────── */
     #writing { background: var(--white); }
     .writing-grid-bg {
-      position: absolute; bottom: 0; left: 0; width: 100%; height: 55%;
+      position: absolute;
+      bottom: -60px;
+      left: 0;
+      width: 100%;
+      height: calc(55% + 120px);
       background-image: url('grid-orange.png');
-      background-size: cover; background-position: top center;
-      opacity: 0.40; pointer-events: none;
+      background-size: cover;
+      background-position: top center;
+      opacity: 0.40;
+      pointer-events: none;
+      will-change: transform;
     }
     #writing .section-label { color: var(--deep-purple); margin-bottom: 0.8rem; }
     #writing h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); color: var(--navy); margin-bottom: 0.6rem; }
@@ -576,7 +598,7 @@
 
     <!-- ── HERO ─────────────────────────────────────────────── -->
     <section id="hero" aria-labelledby="hero-title">
-      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-grid parallax-grid" aria-hidden="true"></div>
       <div class="hero-shape-tl" aria-hidden="true"></div>
       <div class="hero-shape-br" aria-hidden="true"></div>
       <div class="container hero-content">
@@ -623,7 +645,7 @@
           </div>
 
           <div class="what-visual reveal-right">
-            <div class="shape-cluster" aria-hidden="true">
+            <div class="shape-cluster parallax-shapes" aria-hidden="true">
               <img class="sc-circle"   src="shape-circle-purple.png"  alt="" />
               <img class="sc-triangle" src="shape-triangle-pink.png"  alt="" />
               <img class="sc-pentagon" src="shape-pentagon-teal.png"  alt="" />
@@ -753,7 +775,7 @@
 
     <!-- ── RESEARCH & WRITING ───────────────────────────────── -->
     <section id="writing" class="section" aria-labelledby="writing-title">
-      <div class="writing-grid-bg" aria-hidden="true"></div>
+      <div class="writing-grid-bg parallax-grid" aria-hidden="true"></div>
       <div class="container">
         <p class="label section-label reveal">Research &amp; Writing</p>
         <h2 id="writing-title" class="heading reveal" style="transition-delay:0.1s">
@@ -953,6 +975,65 @@
     document.querySelectorAll('#hero .reveal').forEach((el) => {
       el.classList.add('visible');
     });
+
+    // Subtle depth movement on scroll
+    const parallaxGrids = document.querySelectorAll('.parallax-grid');
+    const parallaxShapes = document.querySelector('.parallax-shapes');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let ticking = false;
+
+    function updateParallax() {
+      if (!prefersReducedMotion.matches) {
+        parallaxGrids.forEach((grid) => {
+          const section = grid.closest('section');
+          const rect = section.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+
+          const progress =
+            (viewportHeight - rect.top) /
+            (viewportHeight + rect.height);
+
+        const offset = (progress - 0.5) * 500;
+
+          grid.style.transform =
+            `translate3d(0, ${offset}px, 0)`;
+        });
+
+        if (parallaxShapes) {
+          const section = parallaxShapes.closest('section');
+          const rect = section.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+
+          const isNearViewport = rect.top < viewportHeight && rect.bottom > 0;
+
+          if (isNearViewport) {
+            const progress =
+              (viewportHeight - rect.top) /
+              (viewportHeight + rect.height);
+
+            const offset = (progress - 0.5) * 300;
+
+            parallaxShapes.style.setProperty(
+              '--parallax-y',
+              `${offset}px`
+            );
+          }
+        }
+
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateParallax();
 
     // Nav shadow on scroll
     const nav = document.querySelector('.site-nav');
